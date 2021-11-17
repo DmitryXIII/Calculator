@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ButtonNumbers">
+        <item name="android:fontFamily">@font/advent_pro_medium</item>
+        <item name="android:textSize">35sp</item>
+        <item name="backgroundTint">#252525</item>
+        <item name="android:textColor">#ACACAC</item>
+    </style>
+    <style name="ButtonArithmetic">
+        <item name="android:fontFamily">@font/advent_pro_medium</item>
+        <item name="android:textSize">35sp</item>
+        <item name="backgroundTint">#00302F</item>
+        <item name="android:textColor">#ACACAC</item>
+    </style>
+    <style name="BigButton">
+        <item name="android:fontFamily">@font/advent_pro_medium</item>
+        <item name="android:textSize">35sp</item>
+        <item name="backgroundTint">#007110</item>
+        <item name="android:textColor">#ACACAC</item>
+    </style>
+</resources>
