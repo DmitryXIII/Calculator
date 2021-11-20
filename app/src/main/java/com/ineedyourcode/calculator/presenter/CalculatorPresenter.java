@@ -10,8 +10,8 @@ public class CalculatorPresenter {
     private Double argTwo = null;
     private Double result = null;
     private ArithmeticOperation previousOperation = null;
+    private boolean isOperandLast = false; // режим, когда последней нажат операнд
     private boolean isEnterLast = false; // режим, когда последней нажата клавиша "="
-    private boolean isResultEditing = false; // режим редактировния результата (когда после нажатия "=" пользователь стирает символы клавишей "C"
 
     public CalculatorPresenter(CalculatorView view, Calculator calculator) {
         this.view = view;
@@ -19,65 +19,75 @@ public class CalculatorPresenter {
     }
 
     public void onDigitsPressed(int digit) {
-        if (isEnterLast && !isResultEditing) {
+        if (isEnterLast) {
+            isOperandLast = false;
             clearAll();
             argOne = argOne * 10 + digit;
+            view.showHistory(argOne, argTwo, previousOperation);
             view.showResult(String.valueOf(argOne));
-        } else if (isEnterLast && isResultEditing) {
-            argTwo = result * 10 + digit;
-            view.showResult(String.valueOf(argTwo));
-            isResultEditing = false;
         } else if (previousOperation != null) {
+            isOperandLast = false;
             argTwo = argTwo * 10 + digit;
             view.showResult(String.valueOf(argTwo));
+            view.showHistory(argOne, argTwo, previousOperation);
         } else {
+            isOperandLast = false;
             argOne = argOne * 10 + digit;
             view.showResult(String.valueOf(argOne));
+            view.showHistory(argOne, argTwo, previousOperation);
         }
     }
 
     public void onArithmeticOperandsPressed(ArithmeticOperation operation) {
-        if (isEnterLast && !isResultEditing) {
+        if (isEnterLast) {
+            isOperandLast = true;
             isEnterLast = false;
-        } else if (isEnterLast && isResultEditing) {
-            isEnterLast = false;
-            isResultEditing = false;
-            argOne = result;
-            argTwo = 0.0;
+            view.showHistory(argOne, argTwo, operation);
         }
-        if (argTwo != null) {
+
+        if (isOperandLast) {
+            view.showHistory(argOne, argTwo, operation);
+        }
+
+        if (argTwo != null && !isOperandLast) {
+            isOperandLast = true;
             result = calculator.arithmeticOperation(argOne, argTwo, previousOperation);
             view.showResult(String.valueOf(result));
             argOne = result;
             argTwo = 0.0;
-        } else {
+            view.showHistory(argOne, argTwo, operation);
+        } else if (!isOperandLast) {
+            isOperandLast = true;
             argTwo = 0.0;
+            view.showHistory(argOne, argTwo, operation);
         }
         previousOperation = operation;
     }
 
     public void onEnterPressed() {
         if (isEnterLast) {
+            isOperandLast = false;
+            view.showHistory(result, argTwo, previousOperation);
             result = calculator.arithmeticOperation(result, argTwo, previousOperation);
             view.showResult(String.valueOf(result));
         } else if (argTwo != null) {
+            isOperandLast = false;
             result = calculator.arithmeticOperation(argOne, argTwo, previousOperation);
             view.showResult(String.valueOf(result));
             isEnterLast = true;
+            view.showHistory(argOne, argTwo, previousOperation);
         }
     }
 
     public void onClearPressed() {
-        if (isEnterLast) {
-            isResultEditing = true;
-            result = (result - result % 10) / 10;
-            view.showResult(String.valueOf(result));
-        } else if (argTwo != null) {
+        if (argTwo != null && !isEnterLast && !isOperandLast) {
             argTwo = (argTwo - argTwo % 10) / 10;
             view.showResult(String.valueOf(argTwo));
-        } else {
+            view.showHistory(argOne, argTwo, previousOperation);
+        } else if (!isEnterLast && !isOperandLast) {
             argOne = (argOne - argOne % 10) / 10;
             view.showResult(String.valueOf(argOne));
+            view.showHistory(argOne, argTwo, previousOperation);
         }
     }
 
@@ -86,12 +96,13 @@ public class CalculatorPresenter {
     }
 
     public void clearAll() {
+        view.showHistory(0.0, null, null);
         isEnterLast = false;
-        isResultEditing = false;
+        isOperandLast = false;
         previousOperation = null;
         argOne = 0.0;
         argTwo = null;
         result = null;
-        view.showResult("Cleared");
+        view.showResult(String.valueOf(0.0));
     }
 }

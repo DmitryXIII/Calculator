@@ -3,7 +3,9 @@ package com.ineedyourcode.calculator;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.transition.TransitionManager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ineedyourcode.calculator.presenter.ArithmeticOperation;
@@ -15,8 +17,13 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements CalculatorView {
 
+    ViewGroup tContainer;
     TextView txtDisplay;
+    TextView txt_argOne;
+    TextView txt_argTwo;
+    TextView txt_operand;
     private CalculatorPresenter presenter;
+    int counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +103,26 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
             }
         });
 
+        tContainer = findViewById(R.id.layout_animated);
+        txt_argOne = findViewById(R.id.txt_argOne);
+        txt_argTwo = findViewById(R.id.txt_argTwo);
+        txt_operand = findViewById(R.id.txt_operand);
+        txt_argTwo.setVisibility(View.GONE);
+        txt_operand.setVisibility(View.GONE);
 
+        findViewById(R.id.btn_dot).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                counter++;
+                if (counter == 1) {
+                    TransitionManager.beginDelayedTransition(tContainer);
+                    txt_operand.setVisibility(View.VISIBLE);
+                } else {
+                    TransitionManager.beginDelayedTransition(tContainer);
+                    txt_argTwo.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     @Override
@@ -105,5 +131,46 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
             value = String.valueOf(0.0);
         }
         txtDisplay.setText(value);
+    }
+
+    @Override
+    public void showHistory(Double argOne, Double argTwo, ArithmeticOperation operation) {
+        if (argOne != 0.0) {
+            txt_argOne.setVisibility(View.VISIBLE);
+        } else {
+            txt_argOne.setVisibility(View.INVISIBLE);
+        }
+
+        if (operation != null) {
+            TransitionManager.beginDelayedTransition(tContainer);
+            switch (operation) {
+                case PLUS:
+                    txt_operand.setText("+");
+                    break;
+                case MINUS:
+                    txt_operand.setText("-");
+                    break;
+                case MULTIPLY:
+                    txt_operand.setText("*");
+                    break;
+                case DIVISION:
+                    txt_operand.setText("/");
+                    break;
+            }
+            txt_operand.setVisibility(View.VISIBLE);
+        } else {
+            TransitionManager.beginDelayedTransition(tContainer);
+            txt_operand.setVisibility(View.GONE);
+        }
+
+        if (argTwo != null && argTwo != 0.0) {
+            TransitionManager.beginDelayedTransition(tContainer);
+            txt_argTwo.setVisibility(View.VISIBLE);
+        } else {
+            TransitionManager.beginDelayedTransition(tContainer);
+            txt_argTwo.setVisibility(View.GONE);
+        }
+
+        txt_argTwo.setText(argTwo == null ? ("") : ( String.valueOf(argTwo)));
     }
 }

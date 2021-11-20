@@ -8,32 +8,61 @@
     android:paddingBottom="5dp"
     tools:context=".MainActivity">
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@drawable/display_separator"
+        app:layout_constraintBottom_toTopOf="@id/txt_display"
+        app:layout_constraintEnd_toEndOf="@id/btn_minus"
+        app:layout_constraintStart_toStartOf="@id/btn_clear"
+        app:layout_constraintTop_toBottomOf="@id/calc_logo" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@drawable/display_separator"
+        app:layout_constraintBottom_toTopOf="@id/btn_clear"
+        app:layout_constraintEnd_toEndOf="@id/btn_minus"
+        app:layout_constraintStart_toStartOf="@id/btn_clear"
+        app:layout_constraintTop_toBottomOf="@id/txt_display" />
+
+    <include
+        layout="@layout/animated_textview_layout"
+        android:id="@+id/layout_animated"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/calc_logo"
+        app:layout_constraintEnd_toEndOf="@id/txt_display"
+        app:layout_constraintBottom_toBottomOf="@id/calc_logo"/>
+
+
+
     <ImageView
         android:id="@+id/calc_logo"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="10dp"
         app:layout_constraintBottom_toTopOf="@id/txt_display"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/btn_clear"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/calc_android_logo" />
+        app:srcCompat="@drawable/android_logo" />
 
     <TextView
         android:id="@+id/txt_display"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginBottom="10dp"
-        android:background="@android:color/darker_gray"
+        android:background="@color/black"
         android:fontFamily="@font/advent_pro_medium"
-        android:textColor="@color/black"
-        android:textSize="50sp"
-        android:text="@string/_0_0"
         android:gravity="end"
+        android:text="@string/_0_0"
+        android:textColor="#13C32C"
+        android:textSize="50sp"
         app:layout_constraintBottom_toTopOf="@id/btn_clear"
         app:layout_constraintEnd_toEndOf="@id/btn_minus"
         app:layout_constraintStart_toStartOf="@id/btn_clear"
-        tools:text="+-/*=1234567890"/>
+        tools:text="+-/*=1234567890" />
 
     <Button
         android:id="@+id/btn_clear"
