@@ -28,6 +28,7 @@
         android:fontFamily="@font/advent_pro_medium"
         android:textColor="@color/black"
         android:textSize="50sp"
+        android:text="@string/_0_0"
         android:gravity="end"
         app:layout_constraintBottom_toTopOf="@id/btn_clear"
         app:layout_constraintEnd_toEndOf="@id/btn_minus"

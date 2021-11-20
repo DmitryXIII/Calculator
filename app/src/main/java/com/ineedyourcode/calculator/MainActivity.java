@@ -73,10 +73,37 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         findViewById(R.id.btn_minus).setOnClickListener(onArithmeticOperandsListener);
         findViewById(R.id.btn_multiply).setOnClickListener(onArithmeticOperandsListener);
         findViewById(R.id.btn_division).setOnClickListener(onArithmeticOperandsListener);
+
+        findViewById(R.id.btn_enter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onEnterPressed();
+            }
+        });
+
+        findViewById(R.id.btn_clear).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onClearPressed();
+            }
+        });
+
+        findViewById(R.id.btn_clear).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                presenter.onClearLongPressed();
+                return true;
+            }
+        });
+
+
     }
 
     @Override
     public void showResult(String value) {
+        if (value == null) {
+            value = String.valueOf(0.0);
+        }
         txtDisplay.setText(value);
     }
 }
