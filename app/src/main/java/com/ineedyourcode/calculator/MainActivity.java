@@ -128,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
     @Override
     public void showHistory(Double argOne, Double argTwo, ArithmeticOperation operation) {
         if (argOne == 0.0 && argTwo == null && operation == null) {
-            txt_argOne.setVisibility(View.VISIBLE);
             txt_argOne.setText(R.string.cleared);
         } else {
             txt_argOne.setText(String.valueOf(argOne));

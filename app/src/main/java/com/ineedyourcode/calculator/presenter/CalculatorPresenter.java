@@ -95,14 +95,20 @@ public class CalculatorPresenter {
     }
 
     public void onClearPressed() {
-        if (argTwo != null && !isEnterLast && !isOperandLast && !isDotLast) {
-            argTwo = (argTwo - argTwo % 10) / 10;
+        if (argTwo != null && !isEnterLast && !isOperandLast) {
+            argTwo = 0.0;
+            isDotLast = false;
+            isFirstAfterDot = false;
             view.showResult(String.valueOf(argTwo));
             view.showHistory(argOne, argTwo, previousOperation);
-        } else if (!isEnterLast && !isOperandLast && !isDotLast) {
-            argOne = (argOne - argOne % 10) / 10;
+        } else if (!isEnterLast && !isOperandLast) {
+            argOne = 0.0;
+            isDotLast = false;
+            isFirstAfterDot = false;
             view.showResult(String.valueOf(argOne));
             view.showHistory(argOne, argTwo, previousOperation);
+        } else if (isEnterLast) {
+            clearAll();
         }
     }
 
@@ -134,6 +140,7 @@ public class CalculatorPresenter {
         isEnterLast = false;
         isDotLast = false;
         isOperandLast = false;
+        isFirstAfterDot = false;
         previousOperation = null;
         argOne = 0.0;
         argTwo = null;
