@@ -10,5 +10,7 @@
     <color name="btn_number">#80D8FF</color>
     <color name="btn_chars">#FFE0B2</color>
     <color name="btn_clear_enter">#FFAB91</color>
+    <color name="light_grey">#CACACA</color>
+    <color name="light_green">#13C32C</color>
 
 </resources>

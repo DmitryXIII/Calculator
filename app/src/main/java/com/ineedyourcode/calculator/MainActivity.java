@@ -17,13 +17,12 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements CalculatorView {
 
-    ViewGroup tContainer;
+    ViewGroup historyContainer;
     TextView txtDisplay;
     TextView txt_argOne;
     TextView txt_argTwo;
     TextView txt_operand;
     private CalculatorPresenter presenter;
-    int counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
             }
         });
 
-        tContainer = findViewById(R.id.layout_animated);
+        historyContainer = findViewById(R.id.layout_animated);
         txt_argOne = findViewById(R.id.txt_argOne);
         txt_argTwo = findViewById(R.id.txt_argTwo);
         txt_operand = findViewById(R.id.txt_operand);
@@ -113,14 +112,7 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         findViewById(R.id.btn_dot).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                counter++;
-                if (counter == 1) {
-                    TransitionManager.beginDelayedTransition(tContainer);
-                    txt_operand.setVisibility(View.VISIBLE);
-                } else {
-                    TransitionManager.beginDelayedTransition(tContainer);
-                    txt_argTwo.setVisibility(View.VISIBLE);
-                }
+                presenter.onDotPressed();
             }
         });
     }
@@ -135,14 +127,15 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
 
     @Override
     public void showHistory(Double argOne, Double argTwo, ArithmeticOperation operation) {
-        if (argOne != 0.0) {
+        if (argOne == 0.0 && argTwo == null && operation == null) {
             txt_argOne.setVisibility(View.VISIBLE);
+            txt_argOne.setText(R.string.cleared);
         } else {
-            txt_argOne.setVisibility(View.INVISIBLE);
+            txt_argOne.setText(String.valueOf(argOne));
         }
 
         if (operation != null) {
-            TransitionManager.beginDelayedTransition(tContainer);
+            TransitionManager.beginDelayedTransition(historyContainer);
             switch (operation) {
                 case PLUS:
                     txt_operand.setText("+");
@@ -159,18 +152,18 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
             }
             txt_operand.setVisibility(View.VISIBLE);
         } else {
-            TransitionManager.beginDelayedTransition(tContainer);
+            TransitionManager.beginDelayedTransition(historyContainer);
             txt_operand.setVisibility(View.GONE);
         }
 
         if (argTwo != null && argTwo != 0.0) {
-            TransitionManager.beginDelayedTransition(tContainer);
+            TransitionManager.beginDelayedTransition(historyContainer);
             txt_argTwo.setVisibility(View.VISIBLE);
         } else {
-            TransitionManager.beginDelayedTransition(tContainer);
+            TransitionManager.beginDelayedTransition(historyContainer);
             txt_argTwo.setVisibility(View.GONE);
         }
 
-        txt_argTwo.setText(argTwo == null ? ("") : ( String.valueOf(argTwo)));
+        txt_argTwo.setText(argTwo == null ? ("") : (String.valueOf(argTwo)));
     }
 }
