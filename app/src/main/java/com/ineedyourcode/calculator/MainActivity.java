@@ -1,7 +1,9 @@
 package com.ineedyourcode.calculator;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.transition.TransitionManager;
 import android.view.View;
@@ -17,8 +19,15 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements CalculatorView {
 
+    private static final String DISPLAY = "DISPLAY";
+    private static final String TXT_ARG_ONE = "TXT_ARG_ONE";
+    private static final String TXT_ARG_TWO = "TXT_ARG_TWO";
+    private static final String TXT_OPERAND = "TXT_OPERAND";
+    private static final String TXT_ARG_TWO_VISIBILITY = "TXT_ARG_TWO_VISIBILITY";
+    private static final String TXT_OPERAND_VISIBILITY = "TXT_OPERAND_VISIBILITY";
+
     ViewGroup historyContainer;
-    TextView txtDisplay;
+    TextView txt_display;
     TextView txt_argOne;
     TextView txt_argTwo;
     TextView txt_operand;
@@ -29,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtDisplay = findViewById(R.id.txt_display);
+        txt_display = findViewById(R.id.txt_display);
         presenter = new CalculatorPresenter(this, new Calculator());
 
         HashMap<Integer, Integer> digits = new HashMap<>();
@@ -88,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         });
 
         findViewById(R.id.btn_clear).setOnClickListener(new View.OnClickListener() {
-            @Override
+            @SuppressLint("ResourceAsColor")
             public void onClick(View v) {
                 presenter.onClearPressed();
             }
@@ -106,8 +115,6 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         txt_argOne = findViewById(R.id.txt_argOne);
         txt_argTwo = findViewById(R.id.txt_argTwo);
         txt_operand = findViewById(R.id.txt_operand);
-        txt_argTwo.setVisibility(View.GONE);
-        txt_operand.setVisibility(View.GONE);
 
         findViewById(R.id.btn_dot).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         if (value == null) {
             value = String.valueOf(0.0);
         }
-        txtDisplay.setText(value);
+        txt_display.setText(value);
     }
 
     @Override
@@ -164,5 +171,27 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         }
 
         txt_argTwo.setText(argTwo == null ? ("") : (String.valueOf(argTwo)));
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(DISPLAY, (String) txt_display.getText());
+        outState.putString(TXT_ARG_ONE, (String) txt_argOne.getText());
+        outState.putString(TXT_ARG_TWO, (String) txt_argTwo.getText());
+        outState.putInt(TXT_ARG_TWO_VISIBILITY, txt_argTwo.getVisibility() == View.VISIBLE ? 1 : 0);
+        outState.putString(TXT_OPERAND, (String) txt_operand.getText());
+        outState.putInt(TXT_OPERAND_VISIBILITY, txt_operand.getVisibility() == View.VISIBLE ? 1 : 0);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        txt_display.setText(savedInstanceState.getString(DISPLAY));
+        txt_argOne.setText(savedInstanceState.getString(TXT_ARG_ONE));
+        txt_argTwo.setText(savedInstanceState.getString(TXT_ARG_TWO));
+        txt_argTwo.setVisibility(savedInstanceState.getInt(TXT_ARG_TWO_VISIBILITY) == 1 ? View.VISIBLE : View.GONE);
+        txt_operand.setText(savedInstanceState.getString(TXT_OPERAND));
+        txt_operand.setVisibility(savedInstanceState.getInt(TXT_OPERAND_VISIBILITY) == 1 ? View.VISIBLE : View.GONE);
     }
 }

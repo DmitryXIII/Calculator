@@ -50,7 +50,7 @@
         android:fontFamily="@font/advent_pro_medium"
         android:gravity="end"
         android:text="@string/_0_0"
-        android:textColor="@color/light_green"
+        android:textColor="@color/light_grey"
         android:textSize="50sp"
         app:layout_constraintBottom_toTopOf="@id/view_separator"
         app:layout_constraintTop_toTopOf="parent"
