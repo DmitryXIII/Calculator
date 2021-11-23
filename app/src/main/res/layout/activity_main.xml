@@ -23,15 +23,15 @@
         layout="@layout/animated_textview_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toBottomOf="@id/calc_logo"
         app:layout_constraintEnd_toEndOf="@id/layout_keyboard"
         app:layout_constraintStart_toEndOf="@id/calc_logo" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/txt_display"
         android:layout_width="0dp"
         android:layout_height="60dp"
-        android:autoSizeTextType="uniform"
         android:background="@color/black"
         android:fontFamily="@font/advent_pro_medium"
         android:gravity="end"

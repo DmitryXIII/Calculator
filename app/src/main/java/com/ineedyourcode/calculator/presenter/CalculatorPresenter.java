@@ -24,7 +24,7 @@ public class CalculatorPresenter {
         if (isEnterLast) {
             clearAll();
             argOne = argOne * 10 + digit;
-            view.showHistory(argOne, argTwo, previousOperation);
+            view.showHistory(argOne, argTwo, previousOperation, false);
             view.showResult(String.valueOf(argOne));
         } else if (previousOperation != null) {
             isOperandLast = false;
@@ -34,7 +34,7 @@ public class CalculatorPresenter {
                 argTwo = typeAfterDot(argTwo, digit);
             }
             view.showResult(String.valueOf(argTwo));
-            view.showHistory(argOne, argTwo, previousOperation);
+            view.showHistory(argOne, argTwo, previousOperation, false);
         } else {
             isOperandLast = false;
             if (!isDotLast) {
@@ -43,7 +43,7 @@ public class CalculatorPresenter {
                 argOne = typeAfterDot(argOne, digit);
             }
             view.showResult(String.valueOf(argOne));
-            view.showHistory(argOne, argTwo, previousOperation);
+            view.showHistory(argOne, argTwo, previousOperation, false);
         }
     }
 
@@ -53,11 +53,11 @@ public class CalculatorPresenter {
             isEnterLast = false;
             argOne = result;
             argTwo = 0.0;
-            view.showHistory(argOne, argTwo, operation);
+            view.showHistory(argOne, argTwo, operation, false);
         }
 
         if (isOperandLast) {
-            view.showHistory(argOne, argTwo, operation);
+            view.showHistory(argOne, argTwo, operation, false);
         }
 
         if (argTwo != null && !isOperandLast) {
@@ -67,12 +67,12 @@ public class CalculatorPresenter {
             view.showResult(String.valueOf(result));
             argOne = result;
             argTwo = 0.0;
-            view.showHistory(argOne, argTwo, operation);
+            view.showHistory(argOne, argTwo, operation, false);
         } else if (!isOperandLast) {
             isOperandLast = true;
             isDotLast = false;
             argTwo = 0.0;
-            view.showHistory(argOne, argTwo, operation);
+            view.showHistory(argOne, argTwo, operation, false);
         }
         previousOperation = operation;
     }
@@ -81,7 +81,7 @@ public class CalculatorPresenter {
         if (isEnterLast) {
             isDotLast = false;
             isOperandLast = false;
-            view.showHistory(result, argTwo, previousOperation);
+            view.showHistory(result, argTwo, previousOperation, true);
             result = calculator.arithmeticOperation(result, argTwo, previousOperation);
             view.showResult(String.valueOf(result));
         } else if (argTwo != null) {
@@ -90,7 +90,7 @@ public class CalculatorPresenter {
             result = calculator.arithmeticOperation(argOne, argTwo, previousOperation);
             view.showResult(String.valueOf(result));
             isEnterLast = true;
-            view.showHistory(argOne, argTwo, previousOperation);
+            view.showHistory(argOne, argTwo, previousOperation, true);
         }
     }
 
@@ -100,13 +100,13 @@ public class CalculatorPresenter {
             isDotLast = false;
             isFirstAfterDot = false;
             view.showResult(String.valueOf(argTwo));
-            view.showHistory(argOne, argTwo, previousOperation);
+            view.showHistory(argOne, argTwo, previousOperation, false);
         } else if (!isEnterLast && !isOperandLast) {
             argOne = 0.0;
             isDotLast = false;
             isFirstAfterDot = false;
             view.showResult(String.valueOf(argOne));
-            view.showHistory(argOne, argTwo, previousOperation);
+            view.showHistory(argOne, argTwo, previousOperation, false);
         } else if (isEnterLast) {
             clearAll();
         }
@@ -136,7 +136,7 @@ public class CalculatorPresenter {
     }
 
     public void clearAll() {
-        view.showHistory(0.0, null, null);
+        view.showHistory(0.0, null, null, false);
         isEnterLast = false;
         isDotLast = false;
         isOperandLast = false;

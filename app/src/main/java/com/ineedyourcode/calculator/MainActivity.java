@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.transition.ChangeBounds;
+import android.transition.Scene;
 import android.transition.TransitionManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,12 +27,15 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
     private static final String TXT_OPERAND = "TXT_OPERAND";
     private static final String TXT_ARG_TWO_VISIBILITY = "TXT_ARG_TWO_VISIBILITY";
     private static final String TXT_OPERAND_VISIBILITY = "TXT_OPERAND_VISIBILITY";
+    private static final String TXT_ENTER = "TXT_ENTER";
+    private static final String TXT_ENTER_VISIBILITY = "TXT_ENTER_VISIBILITY";
 
     ViewGroup historyContainer;
     TextView txt_display;
     TextView txt_argOne;
     TextView txt_argTwo;
     TextView txt_operand;
+    TextView txt_enter;
     private CalculatorPresenter presenter;
 
     @Override
@@ -115,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         txt_argOne = findViewById(R.id.txt_argOne);
         txt_argTwo = findViewById(R.id.txt_argTwo);
         txt_operand = findViewById(R.id.txt_operand);
+        txt_enter = findViewById(R.id.txt_enter);
 
         findViewById(R.id.btn_dot).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +139,16 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
     }
 
     @Override
-    public void showHistory(Double argOne, Double argTwo, ArithmeticOperation operation) {
+    public void showHistory(Double argOne, Double argTwo, ArithmeticOperation operation, boolean isEnter) {
+        if (isEnter) {
+            txt_enter.setText("=");
+            animatedHistory();
+            txt_enter.setVisibility(View.VISIBLE);
+        } else {
+            animatedHistory();
+            txt_enter.setVisibility(View.GONE);
+        }
+
         if (argOne == 0.0 && argTwo == null && operation == null) {
             txt_argOne.setText(R.string.cleared);
         } else {
@@ -141,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         }
 
         if (operation != null) {
-            TransitionManager.beginDelayedTransition(historyContainer);
+          animatedHistory();
             switch (operation) {
                 case PLUS:
                     txt_operand.setText("+");
@@ -156,17 +171,18 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
                     txt_operand.setText("/");
                     break;
             }
+            animatedHistory();
             txt_operand.setVisibility(View.VISIBLE);
         } else {
-            TransitionManager.beginDelayedTransition(historyContainer);
+            animatedHistory();
             txt_operand.setVisibility(View.GONE);
         }
 
         if (argTwo != null && argTwo != 0.0) {
-            TransitionManager.beginDelayedTransition(historyContainer);
+            animatedHistory();
             txt_argTwo.setVisibility(View.VISIBLE);
         } else {
-            TransitionManager.beginDelayedTransition(historyContainer);
+            animatedHistory();
             txt_argTwo.setVisibility(View.GONE);
         }
 
@@ -182,6 +198,8 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         outState.putInt(TXT_ARG_TWO_VISIBILITY, txt_argTwo.getVisibility() == View.VISIBLE ? 1 : 0);
         outState.putString(TXT_OPERAND, (String) txt_operand.getText());
         outState.putInt(TXT_OPERAND_VISIBILITY, txt_operand.getVisibility() == View.VISIBLE ? 1 : 0);
+        outState.putString(TXT_ENTER, (String) txt_enter.getText());
+        outState.putInt(TXT_ENTER_VISIBILITY, txt_enter.getVisibility() == View.VISIBLE ? 1 : 0);
     }
 
     @Override
@@ -193,5 +211,13 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         txt_argTwo.setVisibility(savedInstanceState.getInt(TXT_ARG_TWO_VISIBILITY) == 1 ? View.VISIBLE : View.GONE);
         txt_operand.setText(savedInstanceState.getString(TXT_OPERAND));
         txt_operand.setVisibility(savedInstanceState.getInt(TXT_OPERAND_VISIBILITY) == 1 ? View.VISIBLE : View.GONE);
+        txt_enter.setText(savedInstanceState.getString(TXT_ENTER));
+        txt_enter.setVisibility(savedInstanceState.getInt(TXT_ENTER) == 1 ? View.VISIBLE : View.GONE);
+    }
+
+    private void animatedHistory () {
+        ChangeBounds myTransition = new ChangeBounds();
+        myTransition.setDuration(200);
+        TransitionManager.go(new Scene(historyContainer), myTransition);
     }
 }
