@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="separator_width" tools:ignore="MissingDefaultResource">1dp</dimen>
+    <dimen name="separator_margin" tools:ignore="MissingDefaultResource">5dp</dimen>
+    <dimen name="animated_layout_margin_end" tools:ignore="MissingDefaultResource">5dp</dimen>
+</resources>

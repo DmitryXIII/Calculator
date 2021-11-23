@@ -2,13 +2,15 @@
 <resources>
 
     <style name="Button">
-        <item name="android:fontFamily">@font/advent_pro_medium</item>
-        <item name="android:textSize">35sp</item>
+        <item name="android:layout_height">@dimen/zero</item>
+        <item name="android:layout_width">@dimen/zero</item>
+        <item name="android:textSize">@dimen/keyboard_key_text_size</item>
         <item name="backgroundTint">@color/transparent</item>
-        <item name="android:textColor">#CACACA</item>
-        <item name="strokeWidth">1dp</item>
+        <item name="android:textColor">@color/light_grey</item>
+        <item name="strokeWidth">@dimen/keyboard_key_stroke_width</item>
         <item name="strokeColor">@color/dark_grey</item>
         <item name="rippleColor">@color/light_green</item>
+        <item name="fontFamily">@font/advent_pro_medium</item>
 
     </style>
 

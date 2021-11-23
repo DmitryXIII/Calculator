@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    android:paddingBottom="5dp"
+    android:padding="@dimen/main_layout_padding"
     tools:context=".MainActivity">
 
     <View
         android:id="@+id/view_separator"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
+        android:layout_width="@dimen/zero"
+        android:layout_height="@dimen/separator_height"
         android:background="@drawable/display_separator"
         app:layout_constraintBottom_toTopOf="@id/calc_logo"
         app:layout_constraintEnd_toStartOf="@id/layout_keyboard"
@@ -20,11 +20,11 @@
 
     <View
         android:id="@+id/view_kb_separator"
-        android:layout_width="1dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/separator_width"
+        android:layout_height="@dimen/zero"
         android:background="@drawable/keyboard_separator"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="5dp"
+        android:layout_marginEnd="@dimen/separator_margin"
+        android:layout_marginStart="@dimen/separator_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/layout_keyboard"
         app:layout_constraintStart_toEndOf="@id/txt_display"
@@ -33,25 +33,24 @@
     <include
         android:id="@+id/layout_animated"
         layout="@layout/animated_textview_layout"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/zero"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintTop_toTopOf="@id/calc_logo"
+        android:layout_marginEnd="@dimen/animated_layout_margin_end"
         app:layout_constraintEnd_toStartOf="@id/view_kb_separator"
-        app:layout_constraintStart_toEndOf="@id/calc_logo" />
+        app:layout_constraintStart_toEndOf="@id/calc_logo"
+        app:layout_constraintTop_toTopOf="@id/calc_logo" />
 
     <TextView
         android:id="@+id/txt_display"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="5dp"
+        android:layout_width="@dimen/zero"
+        android:layout_height="@dimen/display_height"
         android:autoSizeTextType="uniform"
         android:background="@color/black"
         android:fontFamily="@font/advent_pro_medium"
         android:gravity="end"
         android:text="@string/_0_0"
         android:textColor="@color/light_green"
-        android:textSize="50sp"
+        android:textSize="@dimen/display_text_size"
         app:layout_constraintBottom_toTopOf="@id/view_separator"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/view_kb_separator"
@@ -61,7 +60,7 @@
     <include
         android:id="@+id/layout_keyboard"
         layout="@layout/keyboard"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/zero"
         app:layout_constraintWidth_percent="0.5"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -70,10 +69,9 @@
     <ImageView
         android:id="@+id/calc_logo"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
+        android:layout_height="@dimen/zero"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_display"
+        app:layout_constraintTop_toBottomOf="@id/view_separator"
         app:srcCompat="@drawable/android_logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
