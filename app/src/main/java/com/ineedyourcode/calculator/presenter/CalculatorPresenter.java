@@ -1,12 +1,14 @@
-/*
 package com.ineedyourcode.calculator.presenter;
 
 import com.ineedyourcode.calculator.view.CalculatorView;
 
-public class CalculatorPresenter {
-    private CalculatorView view;
-    private Calculator calculator;
+import java.util.HashMap;
 
+public class CalculatorPresenter {
+    private Calculator calculator;
+    private CalculatorView view;
+    private HashMap<String, String> mapTextValues = new HashMap<>();
+    private HashMap<String, Integer> mapVisibilityValues = new HashMap<>();
     private Double argOne = 0.0;
     private Double argTwo = null;
     private Double result = null;
@@ -25,8 +27,7 @@ public class CalculatorPresenter {
         if (isEnterLast) {
             clearAll();
             argOne = argOne * 10 + digit;
-            view.showHistory(argOne, argTwo, previousOperation, false);
-            view.showResult(String.valueOf(argOne));
+            view.showResults(showResult(argOne), setVisibility());
         } else if (previousOperation != null) {
             isOperandLast = false;
             if (!isDotLast) {
@@ -34,8 +35,7 @@ public class CalculatorPresenter {
             } else {
                 argTwo = typeAfterDot(argTwo, digit);
             }
-            view.showResult(String.valueOf(argTwo));
-            view.showHistory(argOne, argTwo, previousOperation, false);
+            view.showResults(showResult(argTwo), setVisibility());
         } else {
             isOperandLast = false;
             if (!isDotLast) {
@@ -43,8 +43,8 @@ public class CalculatorPresenter {
             } else {
                 argOne = typeAfterDot(argOne, digit);
             }
-            view.showResult(String.valueOf(argOne));
-            view.showHistory(argOne, argTwo, previousOperation, false);
+            view.showResults(showResult(argOne), setVisibility());
+
         }
     }
 
@@ -54,26 +54,32 @@ public class CalculatorPresenter {
             isEnterLast = false;
             argOne = result;
             argTwo = 0.0;
-            view.showHistory(argOne, argTwo, operation, false);
+            view.showResults(showResult(result), setVisibility());
         }
 
         if (isOperandLast) {
-            view.showHistory(argOne, argTwo, operation, false);
+            previousOperation = operation;
+            view.showResults(showResult(argOne), setVisibility());
         }
 
         if (argTwo != null && !isOperandLast) {
             isOperandLast = true;
             isDotLast = false;
             result = calculator.arithmeticOperation(argOne, argTwo, previousOperation);
-            view.showResult(String.valueOf(result));
-            argOne = result;
-            argTwo = 0.0;
-            view.showHistory(argOne, argTwo, operation, false);
+            if (argTwo == 0 && previousOperation == ArithmeticOperation.DIVISION) {
+                view.showResults("деление на ноль");
+                return;
+            } else {
+                argOne = result;
+                argTwo = 0.0;
+                view.showResults(showResult(result), setVisibility());
+            }
         } else if (!isOperandLast) {
             isOperandLast = true;
             isDotLast = false;
             argTwo = 0.0;
-            view.showHistory(argOne, argTwo, operation, false);
+            previousOperation = operation;
+            view.showResults(showResult(argOne), setVisibility());
         }
         previousOperation = operation;
     }
@@ -82,16 +88,20 @@ public class CalculatorPresenter {
         if (isEnterLast) {
             isDotLast = false;
             isOperandLast = false;
-            view.showHistory(result, argTwo, previousOperation, true);
+            argOne = result;
             result = calculator.arithmeticOperation(result, argTwo, previousOperation);
-            view.showResult(String.valueOf(result));
+            view.showResults(showResult(result), setVisibility());
         } else if (argTwo != null) {
             isDotLast = false;
             isOperandLast = false;
             result = calculator.arithmeticOperation(argOne, argTwo, previousOperation);
-            view.showResult(String.valueOf(result));
             isEnterLast = true;
-            view.showHistory(argOne, argTwo, previousOperation, true);
+            if (argTwo == 0 && previousOperation == ArithmeticOperation.DIVISION) {
+                view.showResults("деление на ноль");
+                isEnterLast = false;
+            } else {
+                view.showResults(showResult(result), setVisibility());
+            }
         }
     }
 
@@ -100,175 +110,12 @@ public class CalculatorPresenter {
             argTwo = 0.0;
             isDotLast = false;
             isFirstAfterDot = false;
-            view.showResult(String.valueOf(argTwo));
-            view.showHistory(argOne, argTwo, previousOperation, false);
+            view.showResults(showResult(argTwo), setVisibility());
         } else if (!isEnterLast && !isOperandLast) {
             argOne = 0.0;
             isDotLast = false;
             isFirstAfterDot = false;
-            view.showResult(String.valueOf(argOne));
-            view.showHistory(argOne, argTwo, previousOperation, false);
-        } else if (isEnterLast) {
-            clearAll();
-        }
-    }
-
-    public void onDotPressed() {
-        if (!isEnterLast && !isOperandLast) {
-            isDotLast = true;
-            isFirstAfterDot = true;
-        }
-    }
-
-    // метод ввода цифр после запятой
-    public double typeAfterDot(Double arg, int digit) {
-        if (isFirstAfterDot) {
-            arg = arg + digit / 10.0;
-            isFirstAfterDot = false;
-        } else {
-            String s = arg + String.valueOf(digit);
-            arg = Double.parseDouble(s);
-        }
-        return arg;
-    }
-
-    public void onClearLongPressed() {
-        clearAll();
-    }
-
-    public void clearAll() {
-        view.showHistory(0.0, null, null, false);
-        isEnterLast = false;
-        isDotLast = false;
-        isOperandLast = false;
-        isFirstAfterDot = false;
-        previousOperation = null;
-        argOne = 0.0;
-        argTwo = null;
-        result = null;
-        view.showResult(String.valueOf(0.0));
-    }
-}*/
-
-package com.ineedyourcode.calculator.presenter;
-
-import com.ineedyourcode.calculator.view.CalculatorView;
-
-public class CalculatorPresenter {
-    private CalculatorView view;
-    private Calculator calculator;
-
-    private Double argOne = 0.0;
-    private Double argTwo = null;
-    private Double result = null;
-    private ArithmeticOperation previousOperation = null;
-    private boolean isDotLast = false; // режим ввода цифр после запятой
-    private boolean isFirstAfterDot = false; // вводимая цифра - первая после запятой
-    private boolean isOperandLast = false; // режим, когда последней нажат операнд
-    private boolean isEnterLast = false; // режим, когда последней нажата клавиша "="
-
-    public CalculatorPresenter(CalculatorView view, Calculator calculator) {
-        this.view = view;
-        this.calculator = calculator;
-    }
-
-    public void onDigitsPressed(int digit) {
-        if (isEnterLast) {
-            clearAll();
-            argOne = argOne * 10 + digit;
-            view.showHistory(argOne, argTwo, previousOperation, false);
-            view.showResult(String.valueOf(argOne));
-        } else if (previousOperation != null) {
-            isOperandLast = false;
-            if (!isDotLast) {
-                argTwo = argTwo * 10 + digit;
-            } else {
-                argTwo = typeAfterDot(argTwo, digit);
-            }
-            view.showResult(String.valueOf(argTwo));
-            view.showHistory(argOne, argTwo, previousOperation, false);
-        } else {
-            isOperandLast = false;
-            if (!isDotLast) {
-                argOne = argOne * 10 + digit;
-            } else {
-                argOne = typeAfterDot(argOne, digit);
-            }
-            view.showResult(String.valueOf(argOne));
-            view.showHistory(argOne, argTwo, previousOperation, false);
-        }
-    }
-
-    public void onArithmeticOperandsPressed(ArithmeticOperation operation) {
-        if (isEnterLast) {
-            isOperandLast = true;
-            isEnterLast = false;
-            argOne = result;
-            argTwo = 0.0;
-            view.showHistory(argOne, argTwo, operation, false);
-        }
-
-        if (isOperandLast) {
-            view.showHistory(argOne, argTwo, operation, false);
-        }
-
-        if (argTwo != null && !isOperandLast) {
-            isOperandLast = true;
-            isDotLast = false;
-            result = calculator.arithmeticOperation(argOne, argTwo, previousOperation);
-            if (argTwo == 0 && previousOperation == ArithmeticOperation.DIVISION) {
-                view.showResult("деление на ноль");
-                return;
-            } else {
-                view.showResult(String.valueOf(result));
-            }
-            argOne = result;
-            argTwo = 0.0;
-            view.showHistory(argOne, argTwo, operation, false);
-        } else if (!isOperandLast) {
-            isOperandLast = true;
-            isDotLast = false;
-            argTwo = 0.0;
-            view.showHistory(argOne, argTwo, operation, false);
-        }
-        previousOperation = operation;
-    }
-
-    public void onEnterPressed() {
-        if (isEnterLast) {
-            isDotLast = false;
-            isOperandLast = false;
-            view.showHistory(result, argTwo, previousOperation, true);
-            result = calculator.arithmeticOperation(result, argTwo, previousOperation);
-            view.showResult(String.valueOf(result));
-        } else if (argTwo != null) {
-            isDotLast = false;
-            isOperandLast = false;
-            result = calculator.arithmeticOperation(argOne, argTwo, previousOperation);
-            if (argTwo == 0 && previousOperation == ArithmeticOperation.DIVISION) {
-                view.showResult("деление на ноль");
-                return;
-            } else {
-                view.showResult(String.valueOf(result));
-            }
-            isEnterLast = true;
-            view.showHistory(argOne, argTwo, previousOperation, true);
-        }
-    }
-
-    public void onClearPressed() {
-        if (argTwo != null && !isEnterLast && !isOperandLast) {
-            argTwo = 0.0;
-            isDotLast = false;
-            isFirstAfterDot = false;
-            view.showResult(String.valueOf(argTwo));
-            view.showHistory(argOne, argTwo, previousOperation, false);
-        } else if (!isEnterLast && !isOperandLast) {
-            argOne = 0.0;
-            isDotLast = false;
-            isFirstAfterDot = false;
-            view.showResult(String.valueOf(argOne));
-            view.showHistory(argOne, argTwo, previousOperation, false);
+            view.showResults(showResult(argOne), setVisibility());
         } else if (isEnterLast) {
             clearAll();
         }
@@ -287,8 +134,8 @@ public class CalculatorPresenter {
             arg = arg + digit / 10.0;
             isFirstAfterDot = false;
         } else {
-            String s = arg + String.valueOf(digit);
-            arg = Double.parseDouble(s);
+            String value = arg + String.valueOf(digit);
+            arg = Double.parseDouble(value);
         }
         return arg;
     }
@@ -298,7 +145,6 @@ public class CalculatorPresenter {
     }
 
     private void clearAll() {
-        view.showHistory(0.0, null, null, false);
         isEnterLast = false;
         isDotLast = false;
         isOperandLast = false;
@@ -307,6 +153,67 @@ public class CalculatorPresenter {
         argOne = 0.0;
         argTwo = null;
         result = null;
-        view.showResult(String.valueOf(0));
+        view.showResults(showResult(0.0), setVisibility());
+    }
+
+    public HashMap<String, String> showResult(Double doubleValue) {
+        mapTextValues.put("txtDisplay", showLongOrDouble(doubleValue));
+        mapTextValues.put("txtArgOne", showLongOrDouble(argOne));
+
+        if (isEnterLast) {
+            mapTextValues.put("txtEnter", "=");
+            mapVisibilityValues.put("txtEnter", 1);
+        } else {
+            mapVisibilityValues.put("txtEnter", 0);
+        }
+
+        if (previousOperation != null) {
+            switch (previousOperation) {
+                case PLUS:
+                    mapTextValues.put("txtOperand", "+");
+                    break;
+                case MINUS:
+                    mapTextValues.put("txtOperand", "-");
+                    break;
+                case MULTIPLY:
+                    mapTextValues.put("txtOperand", "*");
+                    break;
+                case DIVISION:
+                    mapTextValues.put("txtOperand", "/");
+                    break;
+            }
+            mapVisibilityValues.put("txtOperand", 1);
+        } else {
+            mapVisibilityValues.put("txtOperand", 0);
+        }
+
+        if (argTwo != null) {
+            mapVisibilityValues.put("txtArgTwo", 1);
+        } else {
+            mapVisibilityValues.put("txtArgTwo", 0);
+        }
+        if (argTwo == null) {
+            mapTextValues.put("txtArgTwo", "");
+        } else {
+            mapTextValues.put("txtArgTwo", showLongOrDouble(argTwo));
+        }
+        return mapTextValues;
+    }
+
+    private HashMap<String, Integer> setVisibility() {
+        return mapVisibilityValues;
+    }
+
+    private String showLongOrDouble(Double doubleValue) {
+        long longValue;
+        double dValue = doubleValue;
+        if (doubleValue == null) {
+            return String.valueOf(0);
+        } else if (doubleValue % 1 == 0) {
+            longValue = (long) dValue;
+            return String.valueOf(longValue);
+        } else {
+            return String.valueOf(doubleValue);
+        }
     }
 }

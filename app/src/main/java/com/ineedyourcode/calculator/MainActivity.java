@@ -36,15 +36,15 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
     private TextView txtArgTwo;
     private TextView txtOperand;
     private TextView txtEnter;
+    private HashMap<String, TextView> mapTxtViews = new HashMap<>();
     private CalculatorPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        txtDisplay = findViewById(R.id.txt_display);
         presenter = new CalculatorPresenter(this, new Calculator());
+        txtDisplay = findViewById(R.id.txt_display);
 
         HashMap<Integer, Integer> digits = new HashMap<>();
         digits.put(R.id.btn_0, 0);
@@ -131,82 +131,24 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
     }
 
     @Override
-    public void showResult(String value) {
-        showLongOrDouble(txtDisplay, value);
+    public void showResults(HashMap<String, String> mapTextValues, HashMap<String, Integer> mapVisibilityValues) {
+        txtDisplay.setText(mapTextValues.get("txtDisplay"));
+        txtArgOne.setText(mapTextValues.get("txtArgOne"));
+        txtArgTwo.setText(mapTextValues.get("txtArgTwo"));
+        txtOperand.setText(mapTextValues.get("txtOperand"));
+        txtEnter.setText(mapTextValues.get("txtEnter"));
+
+        animatedHistory();
+        txtArgTwo.setVisibility(mapVisibilityValues.get("txtArgTwo") == 1 ? View.VISIBLE : View.GONE);
+        animatedHistory();
+        txtOperand.setVisibility(mapVisibilityValues.get("txtOperand") == 1 ? View.VISIBLE : View.GONE);
+        animatedHistory();
+        txtEnter.setVisibility(mapVisibilityValues.get("txtEnter") == 1 ? View.VISIBLE : View.GONE);
     }
 
     @Override
-    public void showHistory(Double argOne, Double argTwo, ArithmeticOperation operation, boolean isEnter) {
-        if (isEnter) {
-            txtEnter.setText("=");
-            animatedHistory();
-            txtEnter.setVisibility(View.VISIBLE);
-        } else {
-            animatedHistory();
-            txtEnter.setVisibility(View.GONE);
-        }
-
-        if (argOne == 0 && argTwo == null && operation == null) {
-            txtArgOne.setText(R.string.cleared);
-        } else {
-            showLongOrDouble(txtArgOne, String.valueOf(argOne));
-        }
-
-        if (operation != null) {
-            animatedHistory();
-            switch (operation) {
-                case PLUS:
-                    txtOperand.setText("+");
-                    break;
-                case MINUS:
-                    txtOperand.setText("-");
-                    break;
-                case MULTIPLY:
-                    txtOperand.setText("*");
-                    break;
-                case DIVISION:
-                    txtOperand.setText("/");
-                    break;
-            }
-            animatedHistory();
-            txtOperand.setVisibility(View.VISIBLE);
-        } else {
-            animatedHistory();
-            txtOperand.setVisibility(View.GONE);
-        }
-
-        if (argTwo != null && argTwo != 0) {
-            animatedHistory();
-            txtArgTwo.setVisibility(View.VISIBLE);
-        } else {
-            animatedHistory();
-            txtArgTwo.setVisibility(View.GONE);
-        }
-        if (argTwo == null) {
-            txtArgTwo.setText("");
-        } else {
-            showLongOrDouble(txtArgTwo, String.valueOf(argTwo));
-        }
-    }
-
-    @Override
-    public void showLongOrDouble(TextView view, String value) {
-        if (value.equals(getString(R.string.zero_division))) {
-            txtDisplay.setText(getString(R.string.zero_division));
-            return;
-        }
-
-        double temp_double = Double.parseDouble(value);
-        long temp_long;
-
-        if (value == null) {
-            view.setText(String.valueOf(0));
-        } else if (temp_double % 1 == 0) {
-            temp_long = (long) temp_double;
-            view.setText(String.valueOf(temp_long));
-        } else {
-            view.setText(String.valueOf(value));
-        }
+    public void showResults(String message) {
+        txtDisplay.setText(message);
     }
 
     @Override
