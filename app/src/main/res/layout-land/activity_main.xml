@@ -48,7 +48,7 @@
         android:background="@color/black"
         android:fontFamily="@font/advent_pro_medium"
         android:gravity="end"
-        android:text="@string/_0_0"
+        android:text="@string/value_0"
         android:textColor="@color/light_green"
         android:textSize="@dimen/display_text_size"
         app:layout_constraintBottom_toTopOf="@id/view_separator"

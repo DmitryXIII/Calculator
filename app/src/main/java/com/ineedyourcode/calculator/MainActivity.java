@@ -30,12 +30,12 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
     private static final String TXT_ENTER = "TXT_ENTER";
     private static final String TXT_ENTER_VISIBILITY = "TXT_ENTER_VISIBILITY";
 
-    ViewGroup historyContainer;
-    TextView txt_display;
-    TextView txt_argOne;
-    TextView txt_argTwo;
-    TextView txt_operand;
-    TextView txt_enter;
+    private ViewGroup historyContainer;
+    private TextView txtDisplay;
+    private TextView txtArgOne;
+    private TextView txtArgTwo;
+    private TextView txtOperand;
+    private TextView txtEnter;
     private CalculatorPresenter presenter;
 
     @Override
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txt_display = findViewById(R.id.txt_display);
+        txtDisplay = findViewById(R.id.txt_display);
         presenter = new CalculatorPresenter(this, new Calculator());
 
         HashMap<Integer, Integer> digits = new HashMap<>();
@@ -117,10 +117,10 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         });
 
         historyContainer = findViewById(R.id.layout_animated);
-        txt_argOne = findViewById(R.id.txt_argOne);
-        txt_argTwo = findViewById(R.id.txt_argTwo);
-        txt_operand = findViewById(R.id.txt_operand);
-        txt_enter = findViewById(R.id.txt_enter);
+        txtArgOne = findViewById(R.id.txt_argOne);
+        txtArgTwo = findViewById(R.id.txt_argTwo);
+        txtOperand = findViewById(R.id.txt_operand);
+        txtEnter = findViewById(R.id.txt_enter);
 
         findViewById(R.id.btn_dot).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,90 +132,104 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
 
     @Override
     public void showResult(String value) {
-        if (value == null) {
-            value = String.valueOf(0.0);
-        }
-        txt_display.setText(value);
+        showLongOrDouble(txtDisplay, value);
     }
 
     @Override
     public void showHistory(Double argOne, Double argTwo, ArithmeticOperation operation, boolean isEnter) {
         if (isEnter) {
-            txt_enter.setText("=");
+            txtEnter.setText("=");
             animatedHistory();
-            txt_enter.setVisibility(View.VISIBLE);
+            txtEnter.setVisibility(View.VISIBLE);
         } else {
             animatedHistory();
-            txt_enter.setVisibility(View.GONE);
+            txtEnter.setVisibility(View.GONE);
         }
 
         if (argOne == 0.0 && argTwo == null && operation == null) {
-            txt_argOne.setText(R.string.cleared);
+            txtArgOne.setText(R.string.cleared);
         } else {
-            txt_argOne.setText(String.valueOf(argOne));
+            showLongOrDouble(txtArgOne, String.valueOf(argOne));
         }
 
         if (operation != null) {
-          animatedHistory();
+            animatedHistory();
             switch (operation) {
                 case PLUS:
-                    txt_operand.setText("+");
+                    txtOperand.setText("+");
                     break;
                 case MINUS:
-                    txt_operand.setText("-");
+                    txtOperand.setText("-");
                     break;
                 case MULTIPLY:
-                    txt_operand.setText("*");
+                    txtOperand.setText("*");
                     break;
                 case DIVISION:
-                    txt_operand.setText("/");
+                    txtOperand.setText("/");
                     break;
             }
             animatedHistory();
-            txt_operand.setVisibility(View.VISIBLE);
+            txtOperand.setVisibility(View.VISIBLE);
         } else {
             animatedHistory();
-            txt_operand.setVisibility(View.GONE);
+            txtOperand.setVisibility(View.GONE);
         }
 
         if (argTwo != null && argTwo != 0.0) {
             animatedHistory();
-            txt_argTwo.setVisibility(View.VISIBLE);
+            txtArgTwo.setVisibility(View.VISIBLE);
         } else {
             animatedHistory();
-            txt_argTwo.setVisibility(View.GONE);
+            txtArgTwo.setVisibility(View.GONE);
         }
+        if (argTwo == null) {
+            txtArgTwo.setText("");
+        } else {
+            showLongOrDouble(txtArgTwo, String.valueOf(argTwo));
+        }
+    }
 
-        txt_argTwo.setText(argTwo == null ? ("") : (String.valueOf(argTwo)));
+    @Override
+    public void showLongOrDouble(TextView view, String value) {
+        double temp_double = Double.parseDouble(value);
+        long temp_long;
+        if (value == null) {
+            view.setText(String.valueOf(0));
+        } else if (temp_double % 1 == 0) {
+            temp_long = (long) temp_double;
+            view.setText(String.valueOf(temp_long));
+        } else {
+            view.setText(String.valueOf(value));
+        }
     }
 
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(DISPLAY, (String) txt_display.getText());
-        outState.putString(TXT_ARG_ONE, (String) txt_argOne.getText());
-        outState.putString(TXT_ARG_TWO, (String) txt_argTwo.getText());
-        outState.putInt(TXT_ARG_TWO_VISIBILITY, txt_argTwo.getVisibility() == View.VISIBLE ? 1 : 0);
-        outState.putString(TXT_OPERAND, (String) txt_operand.getText());
-        outState.putInt(TXT_OPERAND_VISIBILITY, txt_operand.getVisibility() == View.VISIBLE ? 1 : 0);
-        outState.putString(TXT_ENTER, (String) txt_enter.getText());
-        outState.putInt(TXT_ENTER_VISIBILITY, txt_enter.getVisibility() == View.VISIBLE ? 1 : 0);
+        outState.putString(DISPLAY, (String) txtDisplay.getText());
+        outState.putString(TXT_ARG_ONE, (String) txtArgOne.getText());
+        outState.putString(TXT_ARG_TWO, (String) txtArgTwo.getText());
+        outState.putInt(TXT_ARG_TWO_VISIBILITY, txtArgTwo.getVisibility() == View.VISIBLE ? 1 : 0);
+        outState.putString(TXT_OPERAND, (String) txtOperand.getText());
+        outState.putInt(TXT_OPERAND_VISIBILITY, txtOperand.getVisibility() == View.VISIBLE ? 1 : 0);
+        outState.putString(TXT_ENTER, (String) txtEnter.getText());
+        outState.putInt(TXT_ENTER_VISIBILITY, txtEnter.getVisibility() == View.VISIBLE ? 1 : 0);
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        txt_display.setText(savedInstanceState.getString(DISPLAY));
-        txt_argOne.setText(savedInstanceState.getString(TXT_ARG_ONE));
-        txt_argTwo.setText(savedInstanceState.getString(TXT_ARG_TWO));
-        txt_argTwo.setVisibility(savedInstanceState.getInt(TXT_ARG_TWO_VISIBILITY) == 1 ? View.VISIBLE : View.GONE);
-        txt_operand.setText(savedInstanceState.getString(TXT_OPERAND));
-        txt_operand.setVisibility(savedInstanceState.getInt(TXT_OPERAND_VISIBILITY) == 1 ? View.VISIBLE : View.GONE);
-        txt_enter.setText(savedInstanceState.getString(TXT_ENTER));
-        txt_enter.setVisibility(savedInstanceState.getInt(TXT_ENTER) == 1 ? View.VISIBLE : View.GONE);
+        txtDisplay.setText(savedInstanceState.getString(DISPLAY));
+        txtArgOne.setText(savedInstanceState.getString(TXT_ARG_ONE));
+        txtArgTwo.setText(savedInstanceState.getString(TXT_ARG_TWO));
+        txtArgTwo.setVisibility(savedInstanceState.getInt(TXT_ARG_TWO_VISIBILITY) == 1 ? View.VISIBLE : View.GONE);
+        txtOperand.setText(savedInstanceState.getString(TXT_OPERAND));
+        txtOperand.setVisibility(savedInstanceState.getInt(TXT_OPERAND_VISIBILITY) == 1 ? View.VISIBLE : View.GONE);
+        txtEnter.setText(savedInstanceState.getString(TXT_ENTER));
+        txtEnter.setVisibility(savedInstanceState.getInt(TXT_ENTER) == 1 ? View.VISIBLE : View.GONE);
     }
 
-    private void animatedHistory () {
+    private void animatedHistory() {
         ChangeBounds myTransition = new ChangeBounds();
         myTransition.setDuration(200);
         TransitionManager.go(new Scene(historyContainer), myTransition);
