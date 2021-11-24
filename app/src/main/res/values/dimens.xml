@@ -4,6 +4,7 @@
     <dimen name="keyboard_key_margin">5dp</dimen>
     <dimen name="keyboard_key_text_size">35sp</dimen>
     <dimen name="keyboard_key_stroke_width">1dp</dimen>
+    <dimen name="keyboard_key_stroke_width_bold">2dp</dimen>
     <dimen name="animated_view_layout_height">35dp</dimen>
     <dimen name="animated_view_text_size">30sp</dimen>
     <dimen name="display_text_size">50sp</dimen>
