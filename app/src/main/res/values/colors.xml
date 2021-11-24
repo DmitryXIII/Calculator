@@ -13,4 +13,5 @@
     <color name="light_green">#13C32C</color>
     <color name="navy">#01504E</color>
     <color name="transparent">#000000FF</color>
+    <color name="background_gradient">#021700</color>
 </resources>

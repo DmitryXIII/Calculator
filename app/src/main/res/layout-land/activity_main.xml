@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
     android:padding="@dimen/main_layout_padding"
     tools:context=".MainActivity">
 
@@ -45,7 +44,6 @@
         android:layout_width="@dimen/zero"
         android:layout_height="@dimen/display_height"
         android:autoSizeTextType="uniform"
-        android:background="@color/black"
         android:fontFamily="@font/advent_pro_medium"
         android:gravity="end"
         android:text="@string/value_0"

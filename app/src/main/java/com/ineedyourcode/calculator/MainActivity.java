@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
     }
 
     @Override
-    public void showResults(HashMap<String, String> mapTextValues, HashMap<String, Integer> mapVisibilityValues) {
+    public void showResult(HashMap<String, String> mapTextValues, HashMap<String, Integer> mapVisibilityValues) {
         txtDisplay.setText(mapTextValues.get("txtDisplay"));
         txtArgOne.setText(mapTextValues.get("txtArgOne"));
         txtArgTwo.setText(mapTextValues.get("txtArgTwo"));
@@ -144,11 +144,6 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         txtOperand.setVisibility(mapVisibilityValues.get("txtOperand") == 1 ? View.VISIBLE : View.GONE);
         animatedHistory();
         txtEnter.setVisibility(mapVisibilityValues.get("txtEnter") == 1 ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void showResults(String message) {
-        txtDisplay.setText(message);
     }
 
     @Override

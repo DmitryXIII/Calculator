@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Button">
+    <style name="Button" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:layout_height">@dimen/zero</item>
         <item name="android:layout_width">@dimen/zero</item>
         <item name="android:textSize">@dimen/keyboard_key_text_size</item>
