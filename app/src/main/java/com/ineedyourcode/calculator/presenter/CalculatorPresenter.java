@@ -216,7 +216,12 @@ public class CalculatorPresenter {
             isOperandLast = true;
             isDotLast = false;
             result = calculator.arithmeticOperation(argOne, argTwo, previousOperation);
-            view.showResult(String.valueOf(result));
+            if (argTwo == 0 && previousOperation == ArithmeticOperation.DIVISION) {
+                view.showResult("деление на ноль");
+                return;
+            } else {
+                view.showResult(String.valueOf(result));
+            }
             argOne = result;
             argTwo = 0.0;
             view.showHistory(argOne, argTwo, operation, false);
@@ -240,7 +245,12 @@ public class CalculatorPresenter {
             isDotLast = false;
             isOperandLast = false;
             result = calculator.arithmeticOperation(argOne, argTwo, previousOperation);
-            view.showResult(String.valueOf(result));
+            if (argTwo == 0 && previousOperation == ArithmeticOperation.DIVISION) {
+                view.showResult("деление на ноль");
+                return;
+            } else {
+                view.showResult(String.valueOf(result));
+            }
             isEnterLast = true;
             view.showHistory(argOne, argTwo, previousOperation, true);
         }
@@ -272,7 +282,7 @@ public class CalculatorPresenter {
     }
 
     // метод ввода цифр после запятой
-    public double typeAfterDot(Double arg, int digit) {
+    private double typeAfterDot(Double arg, int digit) {
         if (isFirstAfterDot) {
             arg = arg + digit / 10.0;
             isFirstAfterDot = false;
@@ -287,7 +297,7 @@ public class CalculatorPresenter {
         clearAll();
     }
 
-    public void clearAll() {
+    private void clearAll() {
         view.showHistory(0.0, null, null, false);
         isEnterLast = false;
         isDotLast = false;

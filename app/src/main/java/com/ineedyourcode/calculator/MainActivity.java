@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
             txtEnter.setVisibility(View.GONE);
         }
 
-        if (argOne == 0.0 && argTwo == null && operation == null) {
+        if (argOne == 0 && argTwo == null && operation == null) {
             txtArgOne.setText(R.string.cleared);
         } else {
             showLongOrDouble(txtArgOne, String.valueOf(argOne));
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
             txtOperand.setVisibility(View.GONE);
         }
 
-        if (argTwo != null && argTwo != 0.0) {
+        if (argTwo != null && argTwo != 0) {
             animatedHistory();
             txtArgTwo.setVisibility(View.VISIBLE);
         } else {
@@ -191,8 +191,14 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
 
     @Override
     public void showLongOrDouble(TextView view, String value) {
+        if (value.equals(getString(R.string.zero_division))) {
+            txtDisplay.setText(getString(R.string.zero_division));
+            return;
+        }
+
         double temp_double = Double.parseDouble(value);
         long temp_long;
+
         if (value == null) {
             view.setText(String.valueOf(0));
         } else if (temp_double % 1 == 0) {

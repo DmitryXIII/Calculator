@@ -12,6 +12,7 @@ public class Calculator implements Calculateble {
                 return argOne * argTwo;
             case DIVISION:
                 return argOne / argTwo;
+
         }
         return 0;
     }
