@@ -8,9 +8,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="btn_number">#80D8FF</color>
-    <color name="btn_chars">#FFE0B2</color>
-    <color name="btn_clear_enter">#FFAB91</color>
     <color name="light_grey">#CACACA</color>
+    <color name="dark_grey">#474747</color>
     <color name="light_green">#13C32C</color>
-
+    <color name="navy">#01504E</color>
+    <color name="transparent">#000000FF</color>
+    <color name="background_gradient">#021700</color>
+    <color name="background_gradient_light_green">#BFFFC8</color>
+    <color name="orange">#EF6C00</color>
 </resources>

@@ -1,8 +1,9 @@
 package com.ineedyourcode.calculator.view;
 
-import com.ineedyourcode.calculator.presenter.ArithmeticOperation;
+import android.widget.TextView;
+
+import java.util.HashMap;
 
 public interface CalculatorView {
-    void showResult(String value);
-    void showHistory(Double argOne, Double argTwo, ArithmeticOperation operation);
+    void showResult(HashMap<String, String> mapTextValues, HashMap<String, Integer> mapVisibilityValues);
 }

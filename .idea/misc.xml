@@ -4,9 +4,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/drawable-hdpi/keyboard_separator.xml" value="0.2703125" />
+        <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/drawable-night/background_gradient.xml" value="0.2462962962962963" />
+        <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/drawable-night/display_gradient.xml" value="0.2078125" />
+        <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/drawable/background_gradien.xml" value="0.2078125" />
+        <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/drawable/background_gradient.xml" value="0.2703125" />
         <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/drawable/display_separator.xml" value="0.2703125" />
-        <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/layout-land/activity_main.xml" value="0.176" />
-        <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/drawable/key_background.xml" value="0.2703125" />
+        <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/layout-land/activity_main.xml" value="0.2" />
+        <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/layout/animated_textview_layout.xml" value="0.14537037037037037" />
         <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/layout/keyboard.xml" value="0.2" />
       </map>
