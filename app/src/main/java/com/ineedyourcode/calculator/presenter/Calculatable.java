@@ -1,6 +1,6 @@
 package com.ineedyourcode.calculator.presenter;
 
-public interface Calculateble {
+public interface Calculatable {
 
     double arithmeticOperation(double argOne, double argTwo, ArithmeticOperation operation);
 }

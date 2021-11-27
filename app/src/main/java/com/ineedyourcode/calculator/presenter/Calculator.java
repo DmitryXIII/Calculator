@@ -1,6 +1,6 @@
 package com.ineedyourcode.calculator.presenter;
 
-public class Calculator implements Calculateble {
+public class Calculator implements Calculatable {
     @Override
     public double arithmeticOperation(double argOne, double argTwo, ArithmeticOperation operation) {
         switch (operation) {

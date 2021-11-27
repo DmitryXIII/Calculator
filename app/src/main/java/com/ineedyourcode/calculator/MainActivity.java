@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+      
         presenter = new CalculatorPresenter(this, new Calculator());
         txtDisplay = findViewById(R.id.txt_display);
 
@@ -176,5 +177,27 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         ChangeBounds myTransition = new ChangeBounds();
         myTransition.setDuration(200);
         TransitionManager.go(new Scene(historyContainer), myTransition);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(DISPLAY, (String) txt_display.getText());
+        outState.putString(TXT_ARG_ONE, (String) txt_argOne.getText());
+        outState.putString(TXT_ARG_TWO, (String) txt_argTwo.getText());
+        outState.putInt(TXT_ARG_TWO_VISIBILITY, txt_argTwo.getVisibility() == View.VISIBLE ? 1 : 0);
+        outState.putString(TXT_OPERAND, (String) txt_operand.getText());
+        outState.putInt(TXT_OPERAND_VISIBILITY, txt_operand.getVisibility() == View.VISIBLE ? 1 : 0);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        txt_display.setText(savedInstanceState.getString(DISPLAY));
+        txt_argOne.setText(savedInstanceState.getString(TXT_ARG_ONE));
+        txt_argTwo.setText(savedInstanceState.getString(TXT_ARG_TWO));
+        txt_argTwo.setVisibility(savedInstanceState.getInt(TXT_ARG_TWO_VISIBILITY) == 1 ? View.VISIBLE : View.GONE);
+        txt_operand.setText(savedInstanceState.getString(TXT_OPERAND));
+        txt_operand.setVisibility(savedInstanceState.getInt(TXT_OPERAND_VISIBILITY) == 1 ? View.VISIBLE : View.GONE);
     }
 }
