@@ -1,10 +1,16 @@
 package com.ineedyourcode.calculator.presenter;
 
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.ineedyourcode.calculator.view.CalculatorView;
 
 import java.util.HashMap;
 
 public class CalculatorPresenter {
+    private static final String KEY_STATE = "KEY_STATE";
+
     private Calculator calculator;
     private CalculatorView view;
     private HashMap<String, String> mapTextValues = new HashMap<>();
@@ -21,6 +27,24 @@ public class CalculatorPresenter {
     public CalculatorPresenter(CalculatorView view, Calculator calculator) {
         this.view = view;
         this.calculator = calculator;
+    }
+
+    public void onSaveState(Bundle bundle) {
+        bundle.putParcelable(KEY_STATE, new State(mapTextValues, mapVisibilityValues, argOne, argTwo, result, previousOperation, isDotLast, isFirstAfterDot, isOperandLast, isEnterLast));
+    }
+
+    public void restoreState(Bundle bundle) {
+        State state = bundle.getParcelable(KEY_STATE);
+        mapTextValues = state.mapTextValues;
+        mapVisibilityValues = state.mapVisibilityValues;
+        argOne = state.argOne;
+        argTwo = state.argTwo;
+        result = state.result;
+        previousOperation = state.previousOperation;
+        isDotLast = state.isDotLast;
+        isFirstAfterDot = state.isFirstAfterDot;
+        isOperandLast = state.isOperandLast;
+        isEnterLast = state.isEnterLast;
     }
 
     public void onDigitsPressed(int digit) {
@@ -221,5 +245,96 @@ public class CalculatorPresenter {
         } else {
             return String.valueOf(doubleValue);
         }
+    }
+
+    static class State implements Parcelable {
+        private HashMap<String, String> mapTextValues = new HashMap<>();
+        private HashMap<String, Integer> mapVisibilityValues = new HashMap<>();
+        private Double argOne;
+        private Double argTwo;
+        private Double result;
+        private ArithmeticOperation previousOperation;
+        private boolean isDotLast;
+        private boolean isFirstAfterDot;
+        private boolean isOperandLast;
+        private boolean isEnterLast;
+
+        public State(HashMap<String, String> mapTextValues, HashMap<String, Integer> mapVisibilityValues, Double argOne, Double argTwo, Double result, ArithmeticOperation previousOperation, boolean isDotLast, boolean isFirstAfterDot, boolean isOperandLast, boolean isEnterLast) {
+            this.mapTextValues = mapTextValues;
+            this.mapVisibilityValues = mapVisibilityValues;
+            this.argOne = argOne;
+            this.argTwo = argTwo;
+            this.result = result;
+            this.previousOperation = previousOperation;
+            this.isDotLast = isDotLast;
+            this.isFirstAfterDot = isFirstAfterDot;
+            this.isOperandLast = isOperandLast;
+            this.isEnterLast = isEnterLast;
+        }
+
+        protected State(Parcel in) {
+            if (in.readByte() == 0) {
+                argOne = null;
+            } else {
+                argOne = in.readDouble();
+            }
+            if (in.readByte() == 0) {
+                argTwo = null;
+            } else {
+                argTwo = in.readDouble();
+            }
+            if (in.readByte() == 0) {
+                result = null;
+            } else {
+                result = in.readDouble();
+            }
+            isDotLast = in.readByte() != 0;
+            isFirstAfterDot = in.readByte() != 0;
+            isOperandLast = in.readByte() != 0;
+            isEnterLast = in.readByte() != 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            if (argOne == null) {
+                dest.writeByte((byte) 0);
+            } else {
+                dest.writeByte((byte) 1);
+                dest.writeDouble(argOne);
+            }
+            if (argTwo == null) {
+                dest.writeByte((byte) 0);
+            } else {
+                dest.writeByte((byte) 1);
+                dest.writeDouble(argTwo);
+            }
+            if (result == null) {
+                dest.writeByte((byte) 0);
+            } else {
+                dest.writeByte((byte) 1);
+                dest.writeDouble(result);
+            }
+            dest.writeByte((byte) (isDotLast ? 1 : 0));
+            dest.writeByte((byte) (isFirstAfterDot ? 1 : 0));
+            dest.writeByte((byte) (isOperandLast ? 1 : 0));
+            dest.writeByte((byte) (isEnterLast ? 1 : 0));
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<State> CREATOR = new Creator<State>() {
+            @Override
+            public State createFromParcel(Parcel in) {
+                return new State(in);
+            }
+
+            @Override
+            public State[] newArray(int size) {
+                return new State[size];
+            }
+        };
     }
 }

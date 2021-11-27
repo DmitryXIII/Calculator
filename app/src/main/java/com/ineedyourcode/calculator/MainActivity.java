@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         presenter = new CalculatorPresenter(this, new Calculator());
         txtDisplay = findViewById(R.id.txt_display);
 
@@ -161,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         outState.putInt(TXT_OPERAND_VISIBILITY, txtOperand.getVisibility() == View.VISIBLE ? 1 : 0);
         outState.putString(TXT_ENTER, (String) txtEnter.getText());
         outState.putInt(TXT_ENTER_VISIBILITY, txtEnter.getVisibility() == View.VISIBLE ? 1 : 0);
+        presenter.onSaveState(outState);
     }
 
     @Override
@@ -173,7 +173,8 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         txtOperand.setText(savedInstanceState.getString(TXT_OPERAND));
         txtOperand.setVisibility(savedInstanceState.getInt(TXT_OPERAND_VISIBILITY) == 1 ? View.VISIBLE : View.GONE);
         txtEnter.setText(savedInstanceState.getString(TXT_ENTER));
-        txtEnter.setVisibility(savedInstanceState.getInt(TXT_ENTER) == 1 ? View.VISIBLE : View.GONE);
+        txtEnter.setVisibility(savedInstanceState.getInt(TXT_ENTER_VISIBILITY) == 1 ? View.VISIBLE : View.GONE);
+        presenter.restoreState(savedInstanceState);
     }
 
     private void animatedHistory() {
