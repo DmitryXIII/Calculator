@@ -1,9 +1,15 @@
 package com.ineedyourcode.calculator;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.transition.ChangeBounds;
 import android.transition.Scene;
@@ -12,16 +18,34 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ineedyourcode.calculator.presenter.ArithmeticOperation;
 import com.ineedyourcode.calculator.presenter.Calculator;
 import com.ineedyourcode.calculator.presenter.CalculatorPresenter;
+import com.ineedyourcode.calculator.theme.SelectThemeActivity;
+import com.ineedyourcode.calculator.theme.Theme;
+import com.ineedyourcode.calculator.theme.ThemeStorage;
 import com.ineedyourcode.calculator.view.CalculatorView;
 
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements CalculatorView {
+
+    private final ActivityResultLauncher<Intent> launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                Theme theme = (Theme) result.getData().getSerializableExtra(SelectThemeActivity.EXTRA_THEME);
+
+                storage.saveTheme(theme);
+
+                recreate();
+            }
+        }
+    });
 
     private static final String DISPLAY = "DISPLAY";
     private static final String TXT_ARG_ONE = "TXT_ARG_ONE";
@@ -40,10 +64,15 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
     private TextView txtEnter;
     private HashMap<String, TextView> mapTxtViews = new HashMap<>();
     private CalculatorPresenter presenter;
+    private ThemeStorage storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        storage = new ThemeStorage(this);
+        setTheme(storage.getSavedTheme().getTheme());
+
         setContentView(R.layout.activity_main);
 
         presenter = new CalculatorPresenter(this, new Calculator());
@@ -129,6 +158,16 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
             @Override
             public void onClick(View v) {
                 presenter.onDotPressed();
+            }
+        });
+
+        Button btnChooseTheme = findViewById(R.id.choose_theme);
+        btnChooseTheme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SelectThemeActivity.class);
+                intent.putExtra(SelectThemeActivity.EXTRA_THEME, storage.getSavedTheme());
+                launcher.launch(intent);
             }
         });
     }

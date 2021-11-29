@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Button" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:layout_height">@dimen/zero</item>
-        <item name="android:layout_width">@dimen/zero</item>
+    <style name="ButtonLight" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:textSize">@dimen/keyboard_key_text_size</item>
         <item name="backgroundTint">@color/transparent</item>
         <item name="android:textColor">@color/dark_grey</item>
         <item name="strokeWidth">@dimen/keyboard_key_stroke_width_bold</item>
-        <item name="strokeColor">@color/dark_grey</item>
+        <item name="strokeColor">@color/orange</item>
         <item name="rippleColor">@color/dark_grey</item>
         <item name="fontFamily">@font/advent_pro_medium</item>
         <item name="cornerRadius">24dp</item>
-
     </style>
 
-    <style name="Button.Arithmetic">
+    <style name="ButtonLight.Arithmetic">
         <item name="strokeColor">@color/orange</item>
         <item name="rippleColor">@color/orange</item>
     </style>
 
-    <style name="Button.BigButton">
+    <style name="ButtonLight.BigButton">
         <item name="strokeColor">@color/light_green</item>
         <item name="rippleColor">@color/light_green</item>
     </style>

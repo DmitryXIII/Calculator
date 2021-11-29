@@ -12,7 +12,9 @@
         <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/drawable/key_background.xml" value="0.2703125" />
         <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/layout-land/activity_main.xml" value="0.2" />
         <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/layout/activity_select_theme.xml" value="0.1361111111111111" />
         <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/layout/animated_textview_layout.xml" value="0.14537037037037037" />
+        <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/layout/item_theme.xml" value="0.264" />
         <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/layout/keyboard.xml" value="0.2" />
         <entry key="..\:/GB_Android/Android/Calculator/app/src/main/res/menu/calculator_menu.xml" value="0.4" />
       </map>

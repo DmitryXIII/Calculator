@@ -7,6 +7,16 @@
     android:padding="@dimen/main_layout_padding"
     tools:context=".MainActivity">
 
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:id="@+id/choose_theme"
+        android:text="ВЫБОР ТЕМЫ"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toStartOf="@id/view_kb_separator"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/calc_logo"/>
+
     <View
         android:id="@+id/view_separator"
         android:layout_width="@dimen/zero"
