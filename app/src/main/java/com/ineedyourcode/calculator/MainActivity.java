@@ -7,20 +7,16 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.transition.ChangeBounds;
 import android.transition.Scene;
 import android.transition.TransitionManager;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ineedyourcode.calculator.presenter.ArithmeticOperation;
 import com.ineedyourcode.calculator.presenter.Calculator;
@@ -62,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
     private TextView txtArgTwo;
     private TextView txtOperand;
     private TextView txtEnter;
-    private HashMap<String, TextView> mapTxtViews = new HashMap<>();
     private CalculatorPresenter presenter;
     private ThemeStorage storage;
 
@@ -90,12 +85,7 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         digits.put(R.id.btn_8, 8);
         digits.put(R.id.btn_9, 9);
 
-        View.OnClickListener digitsClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onDigitsPressed(digits.get(v.getId()));
-            }
-        };
+        View.OnClickListener digitsClickListener = v -> presenter.onDigitsPressed(digits.get(v.getId()));
 
         findViewById(R.id.btn_0).setOnClickListener(digitsClickListener);
         findViewById(R.id.btn_1).setOnClickListener(digitsClickListener);
@@ -114,38 +104,20 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         operands.put(R.id.btn_multiply, ArithmeticOperation.MULTIPLY);
         operands.put(R.id.btn_division, ArithmeticOperation.DIVISION);
 
-        View.OnClickListener onArithmeticOperandsListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onArithmeticOperandsPressed(operands.get(v.getId()));
-            }
-        };
+        View.OnClickListener onArithmeticOperandsListener = v -> presenter.onArithmeticOperandsPressed(operands.get(v.getId()));
 
         findViewById(R.id.btn_plus).setOnClickListener(onArithmeticOperandsListener);
         findViewById(R.id.btn_minus).setOnClickListener(onArithmeticOperandsListener);
         findViewById(R.id.btn_multiply).setOnClickListener(onArithmeticOperandsListener);
         findViewById(R.id.btn_division).setOnClickListener(onArithmeticOperandsListener);
 
-        findViewById(R.id.btn_enter).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onEnterPressed();
-            }
-        });
+        findViewById(R.id.btn_enter).setOnClickListener(v -> presenter.onEnterPressed());
 
-        findViewById(R.id.btn_clear).setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceAsColor")
-            public void onClick(View v) {
-                presenter.onClearPressed();
-            }
-        });
+        findViewById(R.id.btn_clear).setOnClickListener(v -> presenter.onClearPressed());
 
-        findViewById(R.id.btn_clear).setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                presenter.onClearLongPressed();
-                return true;
-            }
+        findViewById(R.id.btn_clear).setOnLongClickListener(v -> {
+            presenter.onClearLongPressed();
+            return true;
         });
 
         historyContainer = findViewById(R.id.layout_animated);
@@ -154,21 +126,13 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         txtOperand = findViewById(R.id.txt_operand);
         txtEnter = findViewById(R.id.txt_enter);
 
-        findViewById(R.id.btn_dot).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.onDotPressed();
-            }
-        });
+        findViewById(R.id.btn_dot).setOnClickListener(v -> presenter.onDotPressed());
 
         Button btnChooseTheme = findViewById(R.id.choose_theme);
-        btnChooseTheme.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SelectThemeActivity.class);
-                intent.putExtra(SelectThemeActivity.EXTRA_THEME, storage.getSavedTheme());
-                launcher.launch(intent);
-            }
+        btnChooseTheme.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SelectThemeActivity.class);
+            intent.putExtra(SelectThemeActivity.EXTRA_THEME, storage.getSavedTheme());
+            launcher.launch(intent);
         });
     }
 
@@ -220,20 +184,5 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         ChangeBounds myTransition = new ChangeBounds();
         myTransition.setDuration(200);
         TransitionManager.go(new Scene(historyContainer), myTransition);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.calculator_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void onThemeChoice(MenuItem item) {
-        item.setChecked(true);
     }
 }
