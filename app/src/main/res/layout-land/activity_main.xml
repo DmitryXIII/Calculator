@@ -7,15 +7,17 @@
     android:padding="@dimen/main_layout_padding"
     tools:context=".MainActivity">
 
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="40dp"
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="@dimen/zero"
+        android:layout_height="@dimen/change_theme_button_height"
         android:id="@+id/choose_theme"
-        android:text="ВЫБОР ТЕМЫ"
+        android:text="@string/change_theme"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:autoSizeTextType="uniform"
-        app:layout_constraintEnd_toStartOf="@id/view_kb_separator"
+        app:layout_constraintTop_toBottomOf="@id/calc_logo"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/calc_logo"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/calc_logo"/>
 
     <View
         android:id="@+id/view_separator"
@@ -78,7 +80,7 @@
         android:id="@+id/calc_logo"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/zero"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/choose_theme"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view_separator"
         app:srcCompat="@drawable/android_logo" />

@@ -8,10 +8,12 @@
     tools:context=".MainActivity">
 
     <Button
-        android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/zero"
+        android:layout_height="@dimen/change_theme_button_height"
         android:id="@+id/choose_theme"
-        android:text="ВЫБОР ТЕМЫ"
+        android:text="Сменить тему"
+        app:layout_constraintWidth_percent="0.3"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:autoSizeTextType="uniform"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
