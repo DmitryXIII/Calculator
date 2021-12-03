@@ -6,15 +6,15 @@
         <item name="backgroundTint">@color/transparent</item>
         <item name="android:textColor">@color/light_grey</item>
         <item name="strokeWidth">@dimen/keyboard_key_stroke_width</item>
-        <item name="strokeColor">@color/light_green</item>
         <item name="rippleColor">@color/light_green</item>
         <item name="fontFamily">@font/advent_pro_medium</item>
     </style>
 
-    <style name="Button.Light">
-        <item name="android:textColor">@color/dark_grey</item>
-        <item name="strokeColor">@color/orange</item>
-        <item name="rippleColor">@color/orange</item>
-        <item name="cornerRadius">@dimen/corner_radius</item>
+    <style name="Button.Arithmetic">
+        <item name="strokeColor">@color/navy</item>
+    </style>
+
+    <style name="Button.BigButton">
+        <item name="strokeColor">@color/light_green</item>
     </style>
 </resources>
