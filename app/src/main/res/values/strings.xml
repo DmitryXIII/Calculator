@@ -20,4 +20,8 @@
     <string name="text_size">35sp</string>
     <string name="cleared">cleared</string>
     <string name="zero_division">деление на ноль</string>
+    <string name="theme_one">theme one</string>
+    <string name="theme_two">theme two</string>
+    <string name="change_theme">Сменить тему</string>
+    <string name="theme_example">ТЕМА</string>
 </resources>

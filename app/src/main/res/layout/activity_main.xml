@@ -7,6 +7,18 @@
     android:padding="@dimen/main_layout_padding"
     tools:context=".MainActivity">
 
+    <Button
+        android:layout_width="@dimen/zero"
+        android:layout_height="@dimen/change_theme_button_height"
+        android:id="@+id/choose_theme"
+        android:text="Сменить тему"
+        app:layout_constraintWidth_percent="0.3"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/calc_logo"/>
+
     <View
         android:id="@+id/view_separator"
         android:layout_width="@dimen/zero"
