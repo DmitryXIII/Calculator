@@ -7,17 +7,6 @@
     android:padding="@dimen/main_layout_padding"
     tools:context=".MainActivity">
 
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="@dimen/zero"
-        android:layout_height="@dimen/change_theme_button_height"
-        android:id="@+id/choose_theme"
-        android:text="@string/change_theme"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:autoSizeTextType="uniform"
-        app:layout_constraintTop_toBottomOf="@id/calc_logo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/calc_logo"/>
 
     <View
         android:id="@+id/view_separator"
@@ -33,9 +22,9 @@
         android:id="@+id/view_kb_separator"
         android:layout_width="@dimen/separator_width"
         android:layout_height="@dimen/zero"
-        android:background="@drawable/keyboard_separator"
-        android:layout_marginEnd="@dimen/separator_margin"
         android:layout_marginStart="@dimen/separator_margin"
+        android:layout_marginEnd="@dimen/separator_margin"
+        android:background="@drawable/keyboard_separator"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/layout_keyboard"
         app:layout_constraintStart_toEndOf="@id/txt_display"
@@ -62,25 +51,25 @@
         android:textColor="@color/light_green"
         android:textSize="@dimen/display_text_size"
         app:layout_constraintBottom_toTopOf="@id/view_separator"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/view_kb_separator"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="+-/*=1234567890" />
 
     <include
         android:id="@+id/layout_keyboard"
         layout="@layout/keyboard"
         android:layout_width="@dimen/zero"
-        app:layout_constraintWidth_percent="0.5"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.5" />
 
     <ImageView
         android:id="@+id/calc_logo"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/zero"
-        app:layout_constraintBottom_toTopOf="@id/choose_theme"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view_separator"
         app:srcCompat="@drawable/android_logo" />

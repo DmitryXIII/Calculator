@@ -6,6 +6,7 @@
         <item name="backgroundTint">@color/transparent</item>
         <item name="android:textColor">@color/light_grey</item>
         <item name="strokeWidth">@dimen/keyboard_key_stroke_width</item>
+        <item name="strokeColor">@color/dark_grey</item>
         <item name="rippleColor">@color/light_green</item>
         <item name="fontFamily">@font/advent_pro_medium</item>
     </style>
